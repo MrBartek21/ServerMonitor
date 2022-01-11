@@ -12,8 +12,8 @@ docker pull 192.168.1.115:5000/server_monitor:version
 docker run -d --name Server_monitor -e NODE_NAME=service 192.168.1.115:5000/server_monitor:version
 
 # Version
-arm-v1
-arm64-v1
+arm-v3
+arm64-v3
 
 
 # ENV Variable
