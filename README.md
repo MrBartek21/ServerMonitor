@@ -15,6 +15,9 @@ docker run -d --name Server_monitor -e NODE_NAME=service 192.168.1.115:5000/serv
 arm-v3
 arm64-v3
 
+arm-v4
+arm64-v4
+
 
 # ENV Variable
 MQTT_BROKER=192.168.1.4

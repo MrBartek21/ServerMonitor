@@ -13,10 +13,9 @@ def uptime1():
         minutes = int(raw[4])
     else:
         hours, minutes = map(int,raw.split()[4].split(':'))
-    #print(days, hours, minutes)    
+    print(days, hours, minutes)    
     totalsecs = ((days * 24 + hours) * 60 + minutes) * 60
     return totalsecs
-
 
 def on_connect(client, userdata, flags, rc):
     print(f"Connected with result code {rc}")
@@ -39,20 +38,27 @@ topic_cpu = topic_name+'/'+hostname+'/cpuTemp'
 topic_uptime = topic_name+'/'+hostname+'/uptime'
 topic_localip= topic_name+'/'+hostname+'/localip'
 
+
+client.publish(topic_localip, payload=local_ip, qos=0, retain=False)
+print(f"send {local_ip} to {topic_localip}")
+
+
 while True:
   try:
     tFile = open('/sys/class/thermal/thermal_zone0/temp')
     temp = float(tFile.read())
     tempC = temp/1000
-    uptime = uptime1()
+    #uptime = uptime1()
+
+    #print(tempC)
 
     client.publish(topic_cpu, payload=tempC, qos=0, retain=False)
-    client.publish(topic_uptime, payload=uptime, qos=0, retain=False)
-    client.publish(topic_localip, payload=local_ip, qos=0, retain=False)
+    #client.publish(topic_uptime, payload=uptime, qos=0, retain=False)
+    #client.publish(topic_localip, payload=local_ip, qos=0, retain=False)
 
     print(f"send {tempC} to {topic_cpu}")
-    print(f"send {uptime} to {topic_uptime}")
-    print(f"send {local_ip} to {topic_localip}")
+    #(f"send {uptime} to {topic_uptime}")
+    #print(f"send {local_ip} to {topic_localip}")
     time.sleep(10)
 
   except:

@@ -1,7 +1,7 @@
 FROM python:3
 
 LABEL "Author"="MrBartek21"
-LABEL version="1.2"
+LABEL version="5"
 
 
 COPY ./requirements.txt ./
