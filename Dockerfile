@@ -22,5 +22,6 @@ COPY ./sendStatus.py ./
 ENV MQTT_BROKER=192.168.1.4
 ENV MQTT_PORT=1883
 ENV MQTT_TOPIC=monitor
+ENV NODE_NAME=nodename
 
 CMD ["python3", "./sendStatus.py"]
