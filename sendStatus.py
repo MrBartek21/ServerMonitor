@@ -23,18 +23,21 @@ def on_connect(client, userdata, flags, rc):
 
 
 
-broker = int(os.getenv('Broker', "192.168.1.4"))
-port = int(os.getenv('Port', 1883))
-topic_name = int(os.getenv('Topic', "monitor"))
+broker = str(os.getenv('MQTT_BROKER', "192.168.1.4"))
+port = int(os.getenv('MQTT_PORT', 1883))
+topic_name = str(os.getenv('MQTT_TOPIC', "monitor"))
+node_name = str(os.getenv('NODE_NAME', "nodename"))
 
 
 client = mqtt.Client()
 client.on_connect = on_connect
 client.connect(broker, port, 60)
 
-node_name = socket.gethostname()
+host_name = socket.gethostname()
+
 topic_cpu = topic_name+'/'+node_name+'/cpuTemp'
 topic_uptime = topic_name+'/'+node_name+'/uptime'
+topic_hostname= topic_name+'/'+node_name+'/hostname'
 
 while True:
   try:
@@ -45,9 +48,11 @@ while True:
 
     client.publish(topic_cpu, payload=tempC, qos=0, retain=False)
     client.publish(topic_uptime, payload=uptime, qos=0, retain=False)
+    client.publish(topic_hostname, payload=host_name, qos=0, retain=False)
 
     print(f"send {tempC} to {topic_cpu}")
     print(f"send {uptime} to {topic_uptime}")
+    print(f"send {host_name} to {topic_hostname}")
     time.sleep(10)
 
   except:

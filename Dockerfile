@@ -1,32 +1,27 @@
-FROM python:latest as builder
+FROM python:3
+
+LABEL "Author"="MrBartek21"
+LABEL version="1.2"
+
 
 COPY ./requirements.txt ./
 
-RUN apt-get update \
- && apt-get install -y \
-        swig \
-        python-dev \
-        libssl-dev \
- && rm -rf /var/lib/apt/lists/*
+RUN apt-get update
+RUN apt-get install -y python-dev
+RUN rm -rf /var/lib/apt/lists/*
 
- 
-#RUN apt update
-#RUN apt install -y --no-install-recommends gcc make build-essential scons swig
-RUN pip3 install --user -r requirements.txt
+RUN pip3 install paho-mqtt
 RUN git clone https://github.com/eclipse/paho.mqtt.python
 RUN cd paho.mqtt.python
-RUN python3 setup.py install
+RUN python3 paho.mqtt.python/setup.py install; exit 0
 
-# Executor
-FROM python:latest
- 
+
 WORKDIR /app
- 
-COPY --from=builder /root/.local /root/.local
 COPY ./sendStatus.py ./
 
-ENV Broker=192.168.1.4
-ENV Port=1883
-ENV Topic=monitor
+ENV MQTT_BROKER=192.168.1.4
+ENV MQTT_PORT=1883
+ENV MQTT_TOPIC=monitor
+ENV NODE_NAME=nodename
 
 CMD ["python3", "./sendStatus.py"]
