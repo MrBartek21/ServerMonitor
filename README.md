@@ -6,13 +6,14 @@ sudo nano /etc/docker/daemon.json
  service docker restart
 
 # INSTALATION
-docker pull 192.168.1.115:5000/server_monitor-arm64:version
+docker pull 192.168.1.115:5000/server_monitor:version
 
 # RUN COMMAND
-docker run -d --name Server_monitor -e NODE_NAME=service 192.168.1.115:5000/server_monitor-arm64:version
+docker run -d --name Server_monitor -e NODE_NAME=service 192.168.1.115:5000/server_monitor:version
 
 # Version
-v1, v1.2, v1.3
+arm-v1
+arm64-v1
 
 
 # ENV Variable
