@@ -18,6 +18,9 @@ arm64-v3
 arm-v4
 arm64-v4
 
+arm-v6
+arm64-v6
+
 
 # ENV Variable
 MQTT_BROKER=192.168.1.4
